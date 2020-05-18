@@ -1,51 +1,39 @@
 import React, { useState, useEffect } from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { API_URI } from "./config";
 import AddForm from "./components/forms/addForm";
 import AppMenu from "./components/menu/appMenu";
 import WatchList from "./components/watchlist/watchlist";
 import ListingBase from "./components/listings/listingBase";
-const useStyles = makeStyles((theme) => ({
-	root: {
-		minHeight: "100vh",
-	},
-	menuButton: {
-		marginRight: theme.spacing(2),
-	},
-	title: {
-		flexGrow: 1,
-	},
-	withoutLabel: {
-		marginTop: theme.spacing(3),
-	},
-	textField: {
-		width: "100%",
-		marginBottom: theme.spacing(2),
-	},
-	listings: {},
-}));
 
 const App = () => {
-	const classes = useStyles();
-
 	const [watchlist, setWatchlist] = useState([]);
 	const [listings, setListings] = useState([]);
 	let source;
 
 	useEffect(() => {
 		const fetch = async () => {
-			axios.get(`${API_URI}/urls/`).then(({ data }) => {
-				console.log(data);
-				setWatchlist(data);
-			});
-			axios.get(`${API_URI}/listings/`).then(({ data }) => {
-				console.log(data);
-				setListings(data);
-			});
+			axios
+				.get(`${API_URI}/urls/`)
+				.then(({ data }) => {
+					console.log(data);
+					setWatchlist(data);
+				})
+				.catch((err) => {
+					throw err;
+				});
+			axios
+				.get(`${API_URI}/listings/`)
+				.then(({ data }) => {
+					console.log(data);
+					setListings(data);
+				})
+				.catch((err) => {
+					throw err;
+				});
 		};
 
 		fetch();
@@ -66,6 +54,7 @@ const App = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				throw err;
 			});
 	};
 
@@ -83,6 +72,7 @@ const App = () => {
 			})
 			.catch((err) => {
 				console.log(err);
+				throw err;
 			});
 	};
 
@@ -138,7 +128,7 @@ const App = () => {
 						watchlist={watchlist}
 						onDeleteURL={handleDeleteURL}
 					/>
-					<AddForm onSubmitURL={handleSubmitURL} />
+					<AddForm onSubmitURL={handleSubmitURL} urls={watchlist} />
 				</Route>
 			</Switch>
 		</Box>

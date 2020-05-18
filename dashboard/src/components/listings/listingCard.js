@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
 	media: {
 		height: 0,
 		paddingTop: "56.25%", // 16:9
+		"&:hover": {
+			opacity: 0.4,
+		},
 	},
 	expand: {
 		transform: "rotate(0deg)",
@@ -66,13 +69,17 @@ const AdCard = (props) => {
 
 	const getLastWord = (string) => {
 		for (let i = LIMIT_SPACE; i > 0; i--) {
-			if (string[i] == " ") {
+			if (string[i] === " ") {
 				return i;
 			}
 		}
 	};
 
 	const LIMIT = getLastWord(description);
+
+	const redirectUser = () => {
+		window.open(link, "_blank");
+	};
 
 	return (
 		<Card className={classes.root}>
@@ -90,14 +97,12 @@ const AdCard = (props) => {
 				title={`${title} | ${price ? price : ""}`}
 				subheader={posted}
 			/>
-			<CardMedia className={classes.media} image={image_url} />
+			<CardMedia
+				className={classes.media}
+				image={image_url}
+				onClick={() => redirectUser()}
+			/>
 			<CardContent>
-				<Typography variant='body2' component='p'>
-					Link:{" "}
-					<Link target='_blank' rel='noopener noreferrer' href={link}>
-						{link}
-					</Link>
-				</Typography>
 				<Typography variant='body2' component='p'>
 					Location: {location}
 				</Typography>

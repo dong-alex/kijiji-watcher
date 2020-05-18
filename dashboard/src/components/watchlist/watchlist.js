@@ -6,15 +6,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 
 const useStyles = makeStyles((theme) => ({
@@ -92,14 +89,14 @@ const WatchList = (props) => {
 					</ListSubheader>
 				}
 			>
-				{watchlist.map(({ url, id }, i) => (
+				{watchlist.map(({ url, id, tag }, i) => (
 					<ListItem
 						button
 						onClick={(e) => handleListItemClick(e, i)}
-						selected={selectedIndex == i}
+						selected={selectedIndex === i}
 						key={id}
 					>
-						<ListItemText primary={url} />
+						<ListItemText primary={`${tag} | ${url}`} />
 						<ListItemSecondaryAction>
 							<IconButton
 								onClick={(e) => handleDialogOpen(e, id)}

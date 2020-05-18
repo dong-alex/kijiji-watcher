@@ -6,6 +6,10 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import Alert from "@material-ui/lab/Alert";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -46,6 +50,8 @@ const ListingBase = (props) => {
 	const [state, setState] = useState({});
 	const [filteredListings, setFilteredListings] = useState(listings);
 	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [error, setError] = useState("");
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -77,7 +83,7 @@ const ListingBase = (props) => {
 		} else {
 			setFilteredListings([...listings]);
 		}
-	}, [state]);
+	}, [state, watchlist]);
 
 	useEffect(() => {
 		if (listings) {
@@ -99,6 +105,9 @@ const ListingBase = (props) => {
 			.catch((err) => {
 				console.log(err);
 				setLoading(false);
+				setError(
+					"There was an error with refreshing your listings. Please try again."
+				);
 			});
 	};
 
@@ -132,6 +141,26 @@ const ListingBase = (props) => {
 					</FormGroup>
 				</FormControl>
 			</Box>
+			<Collapse in={open}>
+				<Alert
+					severity='error'
+					action={
+						<IconButton
+							aria-label='close'
+							color='inherit'
+							size='small'
+							onClick={() => {
+								setOpen(false);
+								setError("");
+							}}
+						>
+							<CloseIcon fontSize='inherit' />
+						</IconButton>
+					}
+				>
+					{error}
+				</Alert>
+			</Collapse>
 			{loading ? (
 				<Button
 					variant='contained'

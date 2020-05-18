@@ -12,7 +12,7 @@ ma = Marshmallow()
 class SearchURL(db.Model):
     __tablename__ = "search_urls"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    url = db.Column(db.String(256), unique=True)
+    url = db.Column(db.String(256), nullable=False, unique=True)
     used = db.Column(db.Boolean, server_default=expression.false(), default=False)
     dealer = db.Column(db.Boolean, server_default=expression.true(), default=False)
     active = db.Column(db.Boolean, server_default=expression.true(), default=True)

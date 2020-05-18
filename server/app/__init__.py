@@ -55,7 +55,7 @@ def create_app():
 
         if request.method == "POST":
             payload = request.get_json(force=True)
-            url = payload.get("header", None)
+            url = payload.get("url", None)
             used = payload.get("used", "0")
             dealer = payload.get("dealer", "0")
             tag = payload.get("tag", None)
